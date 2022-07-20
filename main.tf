@@ -11,7 +11,7 @@ resource "aws_key_pair" "aws_key" {
 
   key_name   = "aws-key"
   public_key = data.local_file.public_key.content
-  # public_key = file("cred_files/aws_key.pub")
+ #public_key = file("cred_files/aws_key.pub")
 }
 
 
@@ -47,12 +47,12 @@ resource "aws_security_group" "my_firewall" {
 
 #-----Launch-configuration---------
 resource "aws_launch_configuration" "web_tamplate" {
-  name            = "web-tamplate"
-  image_id        = data.aws_ami.latest_ami.id
-  instance_type   = var.instance_type
-  security_groups = [aws_security_group.my_firewall.id]
-  user_data       = data.local_file.script_apache.content
-  #user_data                   = file("script_files/apache.sh")
+  name                        = "web-tamplate"
+  image_id                    = data.aws_ami.latest_ami.id
+  instance_type               = var.instance_type
+  security_groups             = [aws_security_group.my_firewall.id]
+  user_data                   = data.local_file.script_apache.content
+ #user_data                   = file("script_files/apache.sh")
   key_name                    = aws_key_pair.aws_key.key_name
   associate_public_ip_address = true
 
@@ -168,9 +168,8 @@ resource "aws_route_table_association" "private" {
 
 #-------ELB-------------
 resource "aws_elb" "web_elb" {
-  name    = "web-elb"
-  subnets = aws_subnet.public.*.id
-  #availability_zones = [data.aws_availability_zones.az_in_region.names[0],data.aws_availability_zones.az_in_region.names[1],data.aws_availability_zones.az_in_region.names[2]]
+  name            = "web-elb"
+  subnets         = aws_subnet.public.*.id
   security_groups = [aws_security_group.my_firewall.id]
 
 

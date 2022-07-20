@@ -1,5 +1,4 @@
 
-
 data "local_file" "public_key" {
   filename = "./cred_files/aws_key.pub"
 }
